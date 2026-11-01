@@ -42,7 +42,17 @@ describe('YouTube video page', () => {
   })
 
   test('should have comment count', async () => {
-    // "92 Comments" (use '#header #count span' for the number alone)
+    // "92 Comments" (use '#header #count span' for the number alone).
+    // The header first renders as just "Comments" and the number is filled in
+    // once the comments load, which is slower on CI. Comments also load lazily
+    // when scrolled into view, so scroll there and wait for the number.
+    await page.evaluate(() => document.querySelector('ytd-comments')?.scrollIntoView())
+    await page
+      .waitForFunction(
+        () => /^[\d,]+\s+Comments$/.test(document.querySelector('#header #count')?.textContent.trim() ?? ''),
+        { timeout: 20000 }
+      )
+      .catch(() => {})
     expect(await getText('#header #count')).toMatch(/^[\d,]+\s+Comments$/)
   })
 

@@ -2,7 +2,8 @@
 // Each one waits for the selector first, so a changed website fails with
 // "Waiting for selector `...` failed" instead of a null-reference error.
 
-const WAIT = { timeout: 10000 }
+// CI runners are slower than a dev machine, give real websites time to render.
+const WAIT = { timeout: 20000 }
 
 export async function getText(selector) {
   await page.waitForSelector(selector, WAIT)
