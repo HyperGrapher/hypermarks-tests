@@ -1,0 +1,38 @@
+name: Daily website tests
+
+on:
+  schedule:
+    # Every day at 06:00 UTC
+    - cron: '0 6 * * *'
+  # Allow running manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # pnpm version is read from the "packageManager" field in package.json
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      # Puppeteer downloads Chrome on install; cache it between runs
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/puppeteer
+          key: puppeteer-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: pnpm install --frozen-lockfile
+
+      # GitHub sets CI=true, which launches Chrome with --no-sandbox
+      - run: pnpm test
