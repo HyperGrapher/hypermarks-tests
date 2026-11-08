@@ -1,4 +1,4 @@
-# ai-tabs-website-selector-tests
+# hypermarks-website-selector-tests
 
 Test custom websites and their page elements used in the chrome extension.
 Ideally run everyday to detect if any change in website structure
@@ -6,7 +6,7 @@ which would cause failure in the chrome extension.
 
 ### Chrome Extension:
 
-[ai-tabs-browser-extension repo](https://github.com/HyperGrapher/ai-tabs-browser-extension)
+[hypermarks-browser-extension repo](https://github.com/HyperGrapher/hypermarks-browser-extension)
 
 ### Install and run:
 - pnpm install (also downloads the Chrome that Puppeteer uses, no system Chrome needed)
@@ -35,4 +35,3 @@ Specs use the global `page` from `jest-puppeteer`. Shared DOM helpers
 - x.com posts and profiles: the extension scrapes the logged-in app (`data-testid` attributes,
   `[data-testid="tweet"][tabindex="-1"]`). The signed-out pages a test can reach render a different
   DOM without any `data-testid`, so those selectors cannot be checked without a logged-in account.
-- bilyoner.com betslip screenshot (needs an interactive betslip).
