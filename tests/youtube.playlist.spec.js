@@ -47,4 +47,18 @@ describe('YouTube playlist page', () => {
 
     expect(await handle.jsonValue()).toMatch(/^https:\/\/.*ytimg/)
   })
+
+  test('should have channel avatar', async () => {
+    // The page renders several copies of the header and some never get a src,
+    // so wait for one that has loaded (the extension takes the first with a src)
+    const handle = await page.waitForFunction(
+      () =>
+        [...document.querySelectorAll('#page-manager yt-page-header-view-model yt-avatar-shape img')]
+          .map((img) => img.src)
+          .find(Boolean) || null,
+      { timeout: 10000 }
+    )
+
+    expect(await handle.jsonValue()).toMatch(/^https:\/\/yt3\./)
+  })
 })

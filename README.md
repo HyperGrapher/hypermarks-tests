@@ -27,4 +27,12 @@ Specs use the global `page` from `jest-puppeteer`. Shared DOM helpers
 
 - dev.to
 - example.com
-- youtube.com (video, channel, playlist)
+- generic pages (title / meta description / h1 / h2 fallbacks, see `tests/generic.spec.js`)
+- youtube.com (video, channel, playlist, and the three-dots menu of recommended videos)
+
+### Not covered:
+
+- x.com posts and profiles: the extension scrapes the logged-in app (`data-testid` attributes,
+  `[data-testid="tweet"][tabindex="-1"]`). The signed-out pages a test can reach render a different
+  DOM without any `data-testid`, so those selectors cannot be checked without a logged-in account.
+- bilyoner.com betslip screenshot (needs an interactive betslip).
